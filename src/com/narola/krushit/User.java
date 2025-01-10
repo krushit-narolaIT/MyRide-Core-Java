@@ -6,14 +6,14 @@ import java.util.List;
 abstract class User {
     int userID;
     String firstName;
-    String lastLame;
+    String lastName;
     BigInteger phoneNo;
     String emailID;
 
-    public User(int userID, String firstName, String lastLame, BigInteger phoneNo, String emailID) {
+    public User(int userID, String firstName, String lastName, BigInteger phoneNo, String emailID) {
         this.userID = userID;
         this.firstName = firstName;
-        this.lastLame = lastLame;
+        this.lastName = lastName;
         this.phoneNo = phoneNo;
         this.emailID = emailID;
     }
@@ -34,12 +34,12 @@ abstract class User {
         this.firstName = firstName;
     }
 
-    public String getLastLame() {
-        return lastLame;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastLame(String lastLame) {
-        this.lastLame = lastLame;
+    public void setLastLame(String lastName) {
+        this.lastName = lastName;
     }
 
     public BigInteger getPhoneNo() {
@@ -63,7 +63,7 @@ abstract class User {
         return "User{" +
                 "userID=" + userID +
                 ", firstName='" + firstName + '\'' +
-                ", lastLame='" + lastLame + '\'' +
+                ", lastLame='" + lastName + '\'' +
                 ", phoneNo=" + phoneNo +
                 ", emailID='" + emailID + '\'' +
                 '}';

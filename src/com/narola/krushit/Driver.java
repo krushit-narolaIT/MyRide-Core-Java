@@ -16,7 +16,7 @@ class Driver extends User {
 
     static {
         driversList = new ArrayList<>();
-        driversList.add(new Driver(1, "Raj", "Master", new BigInteger("98965412340"), "driver@gmail.com", "DL14-20214556781", new SedanCar(1,  VehicleType.FOURWHEELER.name(), "Pertrol", 351.20), "Surat", "Vadodara", 561.2) {
+        driversList.add(new Driver(1, "Raj", "Master", new BigInteger("98965412340"), "driver@gmail.com", "DL14-20214556781", new SedanCar(1,  VehicleType.FOURWHEELER.name(), "Pertrol", 10), "Surat", "Vadodara", 200.0) {
         });
     }
 
@@ -30,12 +30,60 @@ class Driver extends User {
         this.charge = charge;
     }
 
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public String getPickUpLocation() {
+        return pickUpLocation;
+    }
+
+    public void setPickUpLocation(String pickUpLocation) {
+        this.pickUpLocation = pickUpLocation;
+    }
+
+    public String getDropOffLocation() {
+        return dropOffLocation;
+    }
+
+    public void setDropOffLocation(String dropOffLocation) {
+        this.dropOffLocation = dropOffLocation;
+    }
+
+    public double getCharge() {
+        return charge;
+    }
+
+    public void setCharge(double charge) {
+        this.charge = charge;
+    }
+
     public boolean isAvailable() {
         return available;
     }
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public static List<Driver> getDriversList() {
+        return driversList;
+    }
+
+    public static void setDriversList(List<Driver> driversList) {
+        Driver.driversList = driversList;
     }
 
     public double totalCharge(double distance) {
@@ -62,7 +110,7 @@ class Driver extends User {
         return "Driver [" +
                 " Driver ID='" + userID + '\'' +
                 ", Driver First Name='" + getFirstName() + '\'' +
-                ", Driver Last Name='" + getLastLame() + '\'' +
+                ", Driver Last Name='" + getLastName() + '\'' +
                 ", License Number='" + licenseNumber + '\'' +
                 ", \n\tAvailability =" + available +
                 ", Vehicle=" + vehicle +
@@ -71,4 +119,6 @@ class Driver extends User {
                 ", \n[ Route :: Pickup location = " + pickUpLocation + " ---> Dropoff Location =" + dropOffLocation +
                 " ]";
     }
+
+
 }

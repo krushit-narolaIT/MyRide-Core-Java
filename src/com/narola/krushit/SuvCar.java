@@ -1,7 +1,7 @@
 package com.narola.krushit;
 
 public class SuvCar extends Car {
-    private static final int capacity = 4;
+    private static final int capacity = 6;
     private double fareRate;
 
     public SuvCar(int vehicleID, String vehicleType, String fuelType, double fareRate) {
