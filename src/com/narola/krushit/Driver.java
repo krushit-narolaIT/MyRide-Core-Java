@@ -12,6 +12,14 @@ class Driver extends User {
     private String dropOffLocation;
     private double charge;
 
+    public static List<Driver> getDriversList() {
+        return driversList;
+    }
+
+    public static void setDriversList(List<Driver> driversList) {
+        Driver.driversList = driversList;
+    }
+
     static List<Driver> driversList;
 
     static {
@@ -76,14 +84,6 @@ class Driver extends User {
 
     public void setAvailable(boolean available) {
         this.available = available;
-    }
-
-    public static List<Driver> getDriversList() {
-        return driversList;
-    }
-
-    public static void setDriversList(List<Driver> driversList) {
-        Driver.driversList = driversList;
     }
 
     public double totalCharge(double distance) {

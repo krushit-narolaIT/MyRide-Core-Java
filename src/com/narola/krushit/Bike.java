@@ -1,7 +1,7 @@
 package com.narola.krushit;
 
 class Bike extends Vehicle {
-    private static final String fuelType = "Petrol";
+    private static String fuelType;
     private double fareRate;
     private static final int capacity = 1;
 

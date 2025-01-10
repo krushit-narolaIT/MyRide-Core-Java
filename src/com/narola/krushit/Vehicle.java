@@ -4,6 +4,7 @@ abstract class Vehicle {
     private int vehicleID;
     private String vehicleType;
 
+
     public Vehicle(int vehicleID, String vehicleType) {
         this.vehicleID = vehicleID;
         this.vehicleType = vehicleType;
