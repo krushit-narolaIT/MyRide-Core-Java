@@ -11,24 +11,26 @@ class Driver extends User {
     private String pickUpLocation;
     private String dropOffLocation;
     private double charge;
+    private boolean isAvailableForAnyRide;
+    private boolean isLastTimeRejected;
 
-    public static List<Driver> getDriversList() {
-        return driversList;
+    public boolean isAvailableForAnyRide() {
+        return isAvailableForAnyRide;
     }
 
-    public static void setDriversList(List<Driver> driversList) {
-        Driver.driversList = driversList;
+    public void setAvailableForAnyRide(boolean availableForAnyRide) {
+        isAvailableForAnyRide = availableForAnyRide;
     }
 
-    static List<Driver> driversList;
-
-    static {
-        driversList = new ArrayList<>();
-        driversList.add(new Driver(1, "Raj", "Master", new BigInteger("98965412340"), "driver@gmail.com", "DL14-20214556781", new SedanCar(1,  VehicleType.FOURWHEELER.name(), "Pertrol", 10), "Surat", "Vadodara", 200.0) {
-        });
+    public boolean isLastTimeRejected() {
+        return isLastTimeRejected;
     }
 
-    public Driver(int userID, String firstName, String lastLame, BigInteger phoneNo, String emailID, String licenseNumber, Vehicle vehicle, String pickUpLocation, String dropOffLocation, Double charge) {
+    public void setLastTimeRejected(boolean lastTimeRejected) {
+        isLastTimeRejected = lastTimeRejected;
+    }
+
+    public Driver(int userID, String firstName, String lastLame, BigInteger phoneNo, String emailID, String licenseNumber, Vehicle vehicle, String pickUpLocation, String dropOffLocation, Double charge, boolean isAvailableForAnyRide) {
         super(userID, firstName, lastLame, phoneNo, emailID);
         this.vehicle = vehicle;
         this.available = true;
@@ -36,6 +38,7 @@ class Driver extends User {
         this.pickUpLocation = pickUpLocation;
         this.dropOffLocation = dropOffLocation;
         this.charge = charge;
+        this.isAvailableForAnyRide = isAvailableForAnyRide;
     }
 
     public String getLicenseNumber() {
@@ -101,7 +104,7 @@ class Driver extends User {
     }
 
     public void registerDriver(Driver driver) {
-        driversList.add(driver);
+        MyRideController.driverList.add(driver);
         System.out.println("Driver registered successfully..!!");
     }
 
@@ -118,6 +121,31 @@ class Driver extends User {
                 ", Email id='" + emailID + '\'' +
                 ", \n[ Route :: Pickup location = " + pickUpLocation + " ---> Dropoff Location =" + dropOffLocation +
                 " ]";
+    }
+
+    @Override
+    public void displayUserRole() {
+        System.out.println("Role: Driver");
+    }
+
+    @Override
+    public String getUserDetails() {
+        return "Driver Details: " +
+                "Name: " + firstName + " " + lastName +
+                ", Phone: " + phoneNo +
+                ", License: " + licenseNumber +
+                ", Vehicle: " + vehicle.getVehicleType();
+    }
+
+    public boolean requestConfirmation(){
+        boolean[] acceptance = {false, true, true, true, true};
+        int index = (int) (Math.random() * acceptance.length);
+
+        boolean ans = acceptance[index];
+        if(!ans){
+            this.setLastTimeRejected(true);
+        }
+        return ans;
     }
 
 
