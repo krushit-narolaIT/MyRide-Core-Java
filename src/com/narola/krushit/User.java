@@ -69,5 +69,6 @@ abstract class User {
                 '}';
     }
 
-
+    public abstract void displayUserRole();
+    public abstract String getUserDetails();
 }
