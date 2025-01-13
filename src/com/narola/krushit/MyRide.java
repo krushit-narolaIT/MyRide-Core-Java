@@ -73,16 +73,12 @@ public class MyRide {
 
         // Create the RideRequest object
 
-        String dateString = "2025-01-12";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = formatter.parse(dateString);
-
         RideRequest request = new RideRequest(
                 1,
                 "Jaipur",
                 "Delhi",
                 customer,
-                date,
+                new Date(2010, 1, 3),
                 LocalTime.now(),
                 LocalTime.of(2, 15, 0),
                 100
@@ -108,19 +104,8 @@ public class MyRide {
 
         if (assignedDriver.requestConfirmation()) {
             System.out.println("\nConfirmation received.");
-            Ride ride = new Ride(1, "Accepted", request.getPickUpLocation(), request.getDropOffLocation(), customer, assignedDriver, date, request.getPickUpTime(), request.getDropOffTime(), request.getDistance(), assignedDriver.totalCharge(request.getDistance()));
-
-            System.out.println("\n=========== Ride Details ===============");
-            System.out.println("Ride ID            : " + ride.getRideID());
-            System.out.println("Pick-Up Location   : " + ride.getPickUpLocation());
-            System.out.println("Drop-Off Location  : " + ride.getDropOffLocation());
-            System.out.println("Customer           : " + ride.getCustomer().getFirstName() + " " + ride.getCustomer().getLastName());
-            System.out.println("Driver             : " + ride.getDriver().getFirstName() + " " + ride.getDriver().getLastName());
-            System.out.println("Ride Date          : " + formatter.format(ride.getRideDate()));
-            System.out.println("Pick-Up Time       : " + ride.getPickUpTime());
-            System.out.println("Drop-Off Time      : " + ride.getDropOffTime());
-            System.out.println("Distance           : " + ride.getDistance() + " km");
-            System.out.println("Total Cost         : $" + String.format("%.2f", ride.getTotalCost()));
+            Ride ride = new Ride(1, "Accepted", request.getPickUpLocation(), request.getDropOffLocation(), customer, assignedDriver, request.getRideRequestDate(), request.getPickUpTime(), request.getDropOffTime(), request.getDistance(), assignedDriver.totalCharge(request.getDistance()));
+            MyRideController.printTicket(ride);
             System.out.println("========================================");
         } else {
             System.out.println("\nDriver " + assignedDriver.getFirstName() + " not available for ride");
@@ -156,26 +141,14 @@ public class MyRide {
 
                     if (newAssignedDriver.requestConfirmation()) {
                         System.out.println("\nConfirmation received.");
-                        Ride ride = new Ride(1, "Accepted", request.getPickUpLocation(), request.getDropOffLocation(), customer, newAssignedDriver, date, request.getPickUpTime(), request.getDropOffTime(), request.getDistance(), newAssignedDriver.totalCharge(request.getDistance()));
+                        Ride ride = new Ride(1, "Accepted", request.getPickUpLocation(), request.getDropOffLocation(), customer, newAssignedDriver, request.getRideRequestDate(), request.getPickUpTime(), request.getDropOffTime(), request.getDistance(), newAssignedDriver.totalCharge(request.getDistance()));
 
-                        System.out.println("\n=========== Ride Details ===============");
-                        System.out.println("Ride ID            : " + ride.getRideID());
-                        System.out.println("Pick-Up Location   : " + ride.getPickUpLocation());
-                        System.out.println("Drop-Off Location  : " + ride.getDropOffLocation());
-                        System.out.println("Customer           : " + ride.getCustomer().getFirstName() + " " + ride.getCustomer().getLastName());
-                        System.out.println("Driver             : " + ride.getDriver().getFirstName() + " " + ride.getDriver().getLastName());
-                        System.out.println("Ride Date          : " + formatter.format(ride.getRideDate()));
-                        System.out.println("Pick-Up Time       : " + ride.getPickUpTime());
-                        System.out.println("Drop-Off Time      : " + ride.getDropOffTime());
-                        System.out.println("Distance           : " + ride.getDistance() + " km");
-                        System.out.println("Total Cost         : $" + String.format("%.2f", ride.getTotalCost()));
-                        System.out.println("========================================");
+                        MyRideController.printTicket(ride);
                     } else {
                         System.out.println("Sorry for inconvenience.!!, no driver available for your ride");
                     }
                 }
             }
-
         }
     }
 }

@@ -99,7 +99,7 @@ public class Customer extends  User{
             System.out.println("Driver :" + d.getFirstName() + " " + d.getLastName());
         }
         System.out.println("=== Assigned Driver ===");
-        System.out.println("-> " + availableDrivers.getFirst().getFirstName());
+        System.out.println("-> " + availableDrivers.get(0).getFirstName());
 
         return availableDrivers.isEmpty() ? null : availableDrivers.get(0);
     }
