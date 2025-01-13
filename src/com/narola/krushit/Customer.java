@@ -1,23 +1,14 @@
 package com.narola.krushit;
 
-import com.narola.krushit.Ride;
-
 import java.math.BigInteger;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
 
 public class Customer extends  User{
-    static List<Customer> customerList;
-
-    static {
-        customerList = new ArrayList<>();
-        customerList.add(new Customer(1, "Krushit" , "Babariya", new BigInteger("9876543214"), "ksb@narola.email"));
-        customerList.add(new Customer(2, "Sujal" , "Babariya", new BigInteger("9856543214"), "ssb@gmail.email"));
-    }
-
     public Customer(int userID, String firstName, String lastLame, BigInteger phoneNo, String emailID) {
         super(userID, firstName, lastLame, phoneNo, emailID);
     }
@@ -27,16 +18,16 @@ public class Customer extends  User{
     }
 
     public void addCustomer(Customer customer){
-        customerList.add(customer);
+        MyRideController.customerList.add(customer);
         System.out.println("User Registered Successfully..!!");
     }
 
     public List<Customer> getCustomerList(){
-        return customerList;
+        return MyRideController.customerList;
     }
 
     public Object getCustomerByID(Integer id){
-         for(Customer cust : customerList){
+         for(Customer cust : MyRideController.customerList){
              if(cust.getUserID() == id){
                  return cust;
              }
@@ -45,9 +36,9 @@ public class Customer extends  User{
     }
 
     public Object deleteCustomerByID(Integer id){
-        for(Customer cust : customerList){
+        for(Customer cust : MyRideController.customerList){
             if(cust.getUserID() == id){
-                customerList.remove(cust);
+                MyRideController.customerList.remove(cust);
                 System.out.println("User Removed Successfully...!!");
             }
         }
@@ -65,8 +56,20 @@ public class Customer extends  User{
                 "]";
     }
 
+    @Override
+    public void displayUserRole() {
+        System.out.println("Role: Customer");
+    }
+
+    @Override
+    public String getUserDetails() {
+        return "Driver Details: " +
+                "Name: " + firstName + " " + lastName +
+                ", Phone: " + phoneNo;
+    }
+
     public List<Driver> showRiders(String pickUpLocation, double distance, String dropOffLocation){
-        List<Driver> drivers =  Driver.driversList;
+        List<Driver> drivers =  MyRideController.driverList;
         List<Driver> availableDrivers =  new ArrayList<>();
 
         for(Driver driver: drivers){
@@ -76,6 +79,29 @@ public class Customer extends  User{
         }
 
         return availableDrivers;
+    }
+
+    public Driver requestForRide(RideRequest request){
+        List<Driver> drivers =  MyRideController.driverList;
+        List<Driver> availableDrivers =  new ArrayList<>();
+
+        for(Driver driver: drivers){
+            if(driver.isAvailable() && driver.getPickUpLocation().equalsIgnoreCase(request.getPickUpLocation()) && driver.getDropOffLocation().equalsIgnoreCase(request.getDropOffLocation()) || driver.isAvailableForAnyRide()){
+                if(!driver.isLastTimeRejected()){
+                    availableDrivers.add(driver);
+                }
+            }
+        }
+
+        availableDrivers.sort((a, b) -> Double.compare(a.getCharge(), b.getCharge()));
+        System.out.println("== Available drivers for location ==");
+        for(Driver d : availableDrivers){
+            System.out.println("Driver :" + d.getFirstName() + " " + d.getLastName());
+        }
+        System.out.println("=== Assigned Driver ===");
+        System.out.println("-> " + availableDrivers.getFirst().getFirstName());
+
+        return availableDrivers.isEmpty() ? null : availableDrivers.get(0);
     }
 
     public Ride bookRide(Driver driver, Date rideDate, Time pickUpTime, Time dropOffTime){
