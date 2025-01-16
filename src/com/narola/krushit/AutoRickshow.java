@@ -22,7 +22,7 @@ class AutoRickshaw extends Vehicle {
         this.transmission = transmission;
     }
 
-    @Override
+/*    @Override
     public double calculateFare(double distance) {
         double rate = 0.0;
         String fuelType = getFuelType();
@@ -32,7 +32,18 @@ class AutoRickshaw extends Vehicle {
             rate += distance * 1;
         }
         return distance *  + (distance > 8 ? 20 : 0);
+    }*/
+
+    @Override
+    public double calculateFare(double distance) {
+        double ratePerKm = 4;
+        double additionalCharge = (distance > 8) ? 20 : 0;
+
+        double rate = (distance * ratePerKm) + additionalCharge;
+
+        return rate;
     }
+
 
     @Override
     public String toString() {

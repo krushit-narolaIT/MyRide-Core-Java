@@ -34,4 +34,13 @@ public class Route {
         this.dropOffLocation = dropOffLocation;
         this.distance = distance;
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "pickUpLocation='" + pickUpLocation + '\'' +
+                ", dropOffLocation='" + dropOffLocation + '\'' +
+                ", distance=" + distance +
+                '}';
+    }
 }

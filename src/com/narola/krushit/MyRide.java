@@ -43,64 +43,57 @@ public class MyRide {
         System.out.println();
     }
 
-    public Driver requestForRide(RideRequest rideRequest){
-        List<Driver> drivers = this.driverList;
-        List<Driver> availableDrivers =  new ArrayList<>();
-
-        for(Driver driver: drivers){
-            if(driver.isAvailable()){
-                if(!driver.isLastTimeRejected()){
-                    availableDrivers.add(driver);
-                }
-            }
-        }
-
-        System.out.println("== Available drivers for location ==");
-        for(Driver d : availableDrivers){
-            System.out.println("Driver :" + d.getFirstName() + " " + d.getLastName());
-        }
-        System.out.println("=== Assigned Driver ===");
-        System.out.println("-> " + availableDrivers.get(0).getFirstName());
-
-        return availableDrivers.isEmpty() ? null : availableDrivers.get(0);
-    }
-
-    private double[] isRootSupported(RideRequest request) {
-        double[] arr = new double[2];
+    private double[] isRouteSupported(RideRequest request) {
+        System.out.println("In isRouteSupported");
+        double[] fareDetails = new double[2];
         double distance = 0.0;
-        boolean flag = false;
-        for(Route route : routeList){
-            if(route.getPickUpLocation().equalsIgnoreCase(request.getPickUpLocation()) &&
-                    route.getDropOffLocation().equalsIgnoreCase(request.getDropOffLocation())){
+        boolean isSupported = false;
+
+        for (Route route : routeList) {
+            //System.out.println("Checking route: " + route.getPickUpLocation() + " -> " + route.getDropOffLocation());
+            System.out.println("Pickup in request:: " + request.getPickUpLocation());
+            System.out.println("Pickup in route:: " + route.getPickUpLocation());
+            if (route.getPickUpLocation().equalsIgnoreCase(request.getPickUpLocation()) &&
+                    route.getDropOffLocation().equalsIgnoreCase(request.getDropOffLocation())) {
                 distance = route.getDistance();
-                flag = true;
+                isSupported = true;
+                System.out.println("Found :: " + distance + " " + isSupported);
+                break;
             }
         }
 
-        if(!flag){
-            System.out.println("Sorry for inconvenience, we are unable to proceed your request");
+        if (!isSupported) {
+            System.out.println("Service not available for this route.");
             return null;
         }
 
         double rate = 0.0;
         String type = request.getVehicleType();
-        if(type.equalsIgnoreCase("bike")){
-            distance = new Bike().calculateFare(distance);
-        } else if(type.equalsIgnoreCase("sedan")){
-            distance = new SedanCar().calculateFare(distance);
-        } else if(type.equalsIgnoreCase("suv")){
-            distance = new SuvCar().calculateFare(distance);
-        } else {
-            distance = new AutoRickshaw().calculateFare(distance);
+        switch (type.toLowerCase()) {
+            case "bike":
+                rate = new Bike().calculateFare(distance);
+                break;
+            case "sedan":
+                rate = new SedanCar().calculateFare(distance);
+                break;
+            case "suv":
+                rate = new SuvCar().calculateFare(distance);
+                break;
+            case "autorickshaw":
+                rate = new AutoRickshaw().calculateFare(distance);
+                break;
+            default:
+                System.out.println("Invalid vehicle type: " + type);
+                return null;
         }
 
-        arr[0] = rate;
-        arr[1] = distance;
+        fareDetails[0] = rate;
+        fareDetails[1] = distance;
 
-        System.out.println("Your Ride Total Charge Will Be :: " + rate);
-
-        return arr;
+        System.out.println("Route supported. Total fare: $" + rate + ", Distance: " + distance + " km");
+        return fareDetails;
     }
+
 
     private Ride requestToDriver(Driver driver, RideRequest request, double[] arr){
         if(driver.requestConfirmation(request)){
@@ -112,6 +105,53 @@ public class MyRide {
             return null;
         }
     }
+
+    public Ride requestForRide(RideRequest rideRequest) {
+        double[] fareDetails = isRouteSupported(rideRequest);
+        if (fareDetails == null) {
+            System.out.println("Sorry, we are unable to proceed with your request.");
+            return null;
+        }
+
+        List<Driver> availableDrivers = getAvailableDrivers();
+        if (availableDrivers.isEmpty()) {
+            System.out.println("No drivers are currently available.");
+            return null;
+        }
+
+        Driver assignedDriver = assignRandomDriver(availableDrivers);
+        System.out.println("Assigned Driver: " + assignedDriver.getFirstName() + " " + assignedDriver.getLastName());
+
+        Ride ride = requestToDriver(assignedDriver, rideRequest, fareDetails);
+        if (ride == null) {
+            System.out.println("Ride request failed. The driver rejected the request.");
+            return null;
+        }
+
+        System.out.println("Ride confirmed successfully!");
+        return ride;
+    }
+
+
+    private List<Driver> getAvailableDrivers() {
+        List<Driver> availableDrivers = new ArrayList<>();
+        for (Driver driver : driverList) {
+            if (driver.isAvailable() && !driver.isLastTimeRejected()) {
+                availableDrivers.add(driver);
+            }
+        }
+        if (availableDrivers.isEmpty()) {
+            System.out.println("No drivers available for the selected route.");
+        }
+        return availableDrivers;
+    }
+
+
+    private Driver assignRandomDriver(List<Driver> availableDrivers) {
+        int randomIndex = (int) (Math.random() * availableDrivers.size());
+        return availableDrivers.get(randomIndex);
+    }
+
 
     public static void printTicket(Ride ride){
         System.out.println("\n=========== Ride Details ===============");
@@ -160,6 +200,8 @@ public class MyRide {
         Route route2 = new Route("Mumbai", "Hydrabad", 150);
         myRide.addRoute(route2);
 
+        System.out.println("route List :: " + myRide.routeList);
+
         //register driver
         Driver driver1 = new Driver(1, "Raj", "Raja", new BigInteger("9874563214"), "rajraja@gmail.com", "DL14-0123654787");
         myRide.registerDriver(driver1);
@@ -185,161 +227,31 @@ public class MyRide {
         //Register customer
         myRide.registerCustomer(customer2);
 
-        /*
-        //book ride by customer from surat to vadodara
-        System.out.println();
-        System.out.println();
-        List<Driver> availableDrivers = customer.showRiders("surat", 100.0, "vadodara");
-        System.out.println("||=========================================================||");
-        System.out.println("||========    List of available Drivers    ================||");
-        System.out.println("||==========    [Surat --> Vadodara]   ====================||");
-        System.out.println("||=========================================================||");
-
-        for (Driver d : availableDrivers) {
-            System.out.println("||\t\t\tDrivers :: " + d.getFirstName() + " " + d.getLastName() + " " + d.totalCharge(200) + "₹\t\t\t\t   ||");
-        }
-        System.out.println("||=========================================================||");
-
-        //book ride by customer from mumbai to hydrabad
-        System.out.println();
-        System.out.println();
-        List<Driver> availableDrivers2 = customer.showRiders("mumbai", 2500.25, "Hyderabad");
-        System.out.println("||=========================================================||");
-        System.out.println("||========    List of available Drivers    ================||");
-        System.out.println("||==========    [Mumbai --> Hyderabad]   ==================||");
-        System.out.println("||=========================================================||");
-        for (Driver d : availableDrivers2) {
-            System.out.println("||\t\t\tDrivers :: " + d.getFirstName() + " " + d.getLastName() + " " + d.totalCharge(2500.25) + "₹\t\t\t\t   ||");
-        }
-        System.out.println("||=========================================================||");
-
-        System.out.println();
-        System.out.println();
-        */
-
-
         String dateString = "2025-01-16";
         LocalDate rideDate = LocalDate.parse(dateString);
 
-        RideRequest rideRequest = new RideRequest();
-
         // Create the RideRequest object
-        RideRequest request = new RideRequest(
-                "Jaipur",
-                "Delhi",
+        RideRequest rideRequest = new RideRequest(
+                "Surat",
+                "Ahmedabad",
                 customer1,
                 rideDate,
                 LocalTime.now(),
                 LocalTime.of(2, 15, 0),
-                "Sedan",
-                4
+                "suv",
+                1
         );
 
-        double[] arr = myRide.isRootSupported(rideRequest);
+        double[] arr = myRide.isRouteSupported(rideRequest);
 
         myRide.rideRequestsList.add(rideRequest);
 
-        Driver driver = myRide.requestForRide(rideRequest);
-        System.out.println("Driver :: " + driver.getFirstName() + " " + driver.getLastName());
-        myRide.requestToDriver(driver, rideRequest, arr);
-
-        //Prequiste : System will support specific route only, route will have from loc, to loca, distance.
-
-        //1. System checks provide route supported or not
-        //2. If supported, display total price and checks for available driver
-        //3. If route not supported then display message "Service not avaiable for this route"
-        //4. Assigned random availa driver
-        //5. Assigned driver accept or reject
-        //6. If Driver accept, confirm booking and print ticket
-
-        //1. System checks available driver
-        //2. Assigned random availa driver
-        //3. Assigned driver reject
-        //4. If Driver reject, assign to another available driver
-        //5. If driver accept, confirm booking and print ticket
-
-        //1. System checks available driver
-        //2. Assigned random availa driver
-        //3. Assigned driver reject
-        //4. If Driver reject, assign to another available driver
-        //5. If driver reject, Print "No vehical available"
-
-        /*
-        System.out.println("========================================");
-        Driver assignedDriver = customer.requestForRide(request);
-        System.out.println("Driver :: " + assignedDriver.getFirstName() + " " + assignedDriver.getLastName());
-
-        System.out.print("\nWaiting for confirmation");
-        for (int i = 0; i < 5; i++) {
-            try {
-                Thread.sleep(1000);
-                System.out.print(".");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        if (assignedDriver.requestConfirmation()) {
-            System.out.println("\nConfirmation received.");
-            Ride ride = new Ride(1, "Accepted", request.getPickUpLocation(), request.getDropOffLocation(), customer, assignedDriver, request.getRideRequestDate(), request.getPickUpTime(), request.getDropOffTime(), request.getDistance(), assignedDriver.totalCharge(request.getDistance()));
-            MyRideController.rideList.add(ride);
-            MyRideController.printTicket(ride);
+        Ride ride = myRide.requestForRide(rideRequest);
+        if (ride != null) {
+            System.out.println("Ride successfully booked!");
+            System.out.println("Driver :: " + ride.getDriver().getFirstName() + " " + ride.getDriver().getLastName());
         } else {
-            System.out.println("\nDriver " + assignedDriver.getFirstName() + " not available for ride");
-            System.out.print("\nAssigning new driver");
-            for (int i = 0; i < 5; i++) {
-                try {
-                    Thread.sleep(1000);
-                    System.out.print(".");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            System.out.println();
-            Driver newAssignedDriver = customer.requestForRide(request);
-
-            if (newAssignedDriver == assignedDriver) {
-                System.out.println("Sorry for inconvenience.!!, no driver available for your ride");
-            } else {
-                if (newAssignedDriver == null) {
-                    System.out.println("Sorry for inconvenience.!!, no driver available for your ride");
-                } else {
-                    System.out.println("New Driver :: " + newAssignedDriver.getFirstName() + " " + newAssignedDriver.getLastName());
-
-                    System.out.print("\nWaiting for confirmation");
-                    for (int i = 0; i < 5; i++) {
-                        try {
-                            Thread.sleep(1000);
-                            System.out.print(".");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    if (newAssignedDriver.requestConfirmation()) {
-                        System.out.println("\nConfirmation received.");
-                        Ride ride = new Ride(1, "Accepted", request.getPickUpLocation(), request.getDropOffLocation(), customer, newAssignedDriver, request.getRideRequestDate(), request.getPickUpTime(), request.getDropOffTime(), request.getDistance(), newAssignedDriver.totalCharge(request.getDistance()));
-                        MyRideController.rideList.add(ride);
-                        MyRideController.printTicket(ride);
-                    } else {
-                        System.out.println("Sorry for inconvenience.!!, no driver available for your ride");
-                    }
-                }
-            }
+            System.out.println("Ride request failed. Please try again.");
         }
-
-        System.out.println();
-        System.out.println();
-
-        System.out.println("===================================================");
-        System.out.println("==============     Previous Rides     ==============");
-        List<Ride> userRide = Ride.findRideByUserID(3);
-
-        for (Ride ride : userRide) {
-            System.out.println("Ride :: " + ride.getRideID() + " " + ride.getRideDate() + " " + ride.getPickUpLocation() + " " + ride.getDropOffLocation() + " " + ride.getDriver().getFirstName());
-        }
-        */
-
     }
 }
