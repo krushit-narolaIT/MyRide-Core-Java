@@ -1,34 +1,43 @@
 package com.narola.krushit;
 
-class AutoRickshow extends Vehicle {
-    private String fuelType;
-    private double fareRate;
-    private static final int capacity = 3;
+import java.util.Locale;
 
-    public AutoRickshow(int vehicleID, String vehicleType, String fuelType, double fairRate) {
-        super(vehicleID, vehicleType);
-        this.fuelType = fuelType;
-        this.fareRate = fairRate;
+class AutoRickshaw extends Vehicle {
+    public static final int capacity = 3;
+    private String transmission;
+
+    public AutoRickshaw() {
     }
 
-    public String getFuelType() {
-        return fuelType;
+    public AutoRickshaw(int vehicleID, String vehicleType, String fuelType, String transmission) {
+        super(vehicleID, vehicleType, fuelType);
+        this.transmission = transmission;
     }
 
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
+    public String getTransmission() {
+        return transmission;
     }
 
-    public double getFareRate() {
-        return fareRate;
-    }
-
-    public void setFairRate(double fairRate) {
-        this.fareRate = fairRate;
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
     }
 
     @Override
     public double calculateFare(double distance) {
-        return distance * getFareRate();
+        double rate = 0.0;
+        String fuelType = getFuelType();
+        if(fuelType.equalsIgnoreCase("petrol") || fuelType.equalsIgnoreCase("diesel")){
+            rate += distance * 4;
+        } else if(fuelType.equalsIgnoreCase("CNG")){
+            rate += distance * 1;
+        }
+        return distance *  + (distance > 8 ? 20 : 0);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", AutoRickshaw{" +
+                ", capacity=" + capacity +
+                '}';
     }
 }

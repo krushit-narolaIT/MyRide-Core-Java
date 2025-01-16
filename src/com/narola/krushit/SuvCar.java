@@ -1,31 +1,52 @@
 package com.narola.krushit;
 
 public class SuvCar extends Car {
-    private static final int capacity = 6;
-    private double fareRate;
+    public static final int capacity = 6;
+    private char trunkSize;
+    private int towingCapacity;
+    private double grossVehicleWeight; //in kgs
 
-    public SuvCar(int vehicleID, String vehicleType, String fuelType, double fareRate) {
-        super(vehicleID, vehicleType, fuelType);
-        this.fareRate = fareRate;
+    public SuvCar() {
     }
 
-    public double getFareRate() {
-        return fareRate;
+    public SuvCar(int vehicleID, String vehicleType, String fuelType, char trunkSize, int towingCapacity, String groundClearance) {
+        super(vehicleID, vehicleType, fuelType, groundClearance);
+        this.trunkSize = trunkSize;
+        this.towingCapacity = towingCapacity;
     }
 
-    public void setFareRate(double fareRate) {
-        this.fareRate = fareRate;
+    public char getTrunkSize() {
+        return trunkSize;
+    }
+
+    public void setTrunkSize(char trunkSize) {
+        this.trunkSize = trunkSize;
+    }
+
+    public int getTowingCapacity() {
+        return towingCapacity;
+    }
+
+    public void setTowingCapacity(int towingCapacity) {
+        this.towingCapacity = towingCapacity;
     }
 
     @Override
     public double calculateFare(double distance) {
-        return distance * getFareRate();
+        double fare = distance * 1000;
+        if (grossVehicleWeight > 2000) {
+            if(distance > 200){
+                fare += 10 * distance;
+            }
+            fare += 200;
+        }
+        return fare;
     }
 
     @Override
     public String toString() {
         return super.toString() + "SuvCar{" +
-                "fareRate=" + fareRate +
+                "Capacity =" + capacity +
                 '}';
     }
 }

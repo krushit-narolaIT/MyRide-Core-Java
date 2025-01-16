@@ -1,31 +1,48 @@
+
 package com.narola.krushit;
 
 public class SedanCar extends Car {
-    private static final int capacity = 4;
-    private double fareRate;
+    public static final int capacity = 4;
+    private String wheelBase;
+    private double carLength;
 
-    public SedanCar(int vehicleID, String vehicleType, String fuelType, double fareRate) {
-        super(vehicleID, vehicleType, fuelType);
-        this.fareRate = fareRate;
+    public SedanCar() {
     }
 
-    public double getFareRate() {
-        return fareRate;
+    public SedanCar(int vehicleID, String vehicleType, String fuelType, String groundClearance, String wheelBase, double carLength) {
+        super(vehicleID, vehicleType, fuelType, groundClearance);
+        this.wheelBase = wheelBase;
+        this.carLength = carLength;
     }
 
-    public void setFareRate(double fareRate) {
-        this.fareRate = fareRate;
+    public String getWheelBase() {
+        return wheelBase;
+    }
+
+    public void setWheelBase(String wheelBase) {
+        this.wheelBase = wheelBase;
+    }
+
+    public double getCarLength() {
+        return carLength;
+    }
+
+    public void setCarLength(double carLength) {
+        this.carLength = carLength;
     }
 
     @Override
     public double calculateFare(double distance) {
-        return distance * getFareRate();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "SedanCar{" +
-                "fareRate=" + fareRate +
-                '}';
+        String fuelType = getFuelType();
+        double rate = 1200;
+        if(fuelType.equalsIgnoreCase("petrol") || fuelType.equalsIgnoreCase("diesel")){
+            rate += distance * 25;
+        } else if(fuelType.equalsIgnoreCase("CNG")){
+            rate += distance * 9;
+        }
+        if (distance > 50) {
+            rate += (carLength > 4.5 ? 100 : 50);
+        }
+        return rate;
     }
 }

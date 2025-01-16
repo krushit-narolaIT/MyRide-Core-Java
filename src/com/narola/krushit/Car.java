@@ -1,15 +1,13 @@
 package com.narola.krushit;
 
-public abstract class Car extends Vehicle{
-    private String fuelType;
+public abstract class Car extends Vehicle {
+    private String groundClearance;
 
-    @Override
-    public String toString() {
-        return "fuelType='" + fuelType ;
+    public Car() {
     }
 
-    public Car(int vehicleID, String vehicleType, String fuelType) {
-        super(vehicleID, vehicleType);
-        this.fuelType = fuelType;
+    public Car(int vehicleID, String vehicleType, String fuelType, String groundClearance) {
+        super(vehicleID, vehicleType, fuelType);
+        this.groundClearance = groundClearance;
     }
 }

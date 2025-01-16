@@ -1,41 +1,41 @@
 package com.narola.krushit;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
 public class RideRequest {
-    private int rideRequestID;
     private String rideRequestStatus = "Pending";
     private String pickUpLocation;
     private String dropOffLocation;
     private Customer customer;
-    private Date rideRequestDate;
+    private LocalDate rideRequestDate;
     private LocalTime pickUpTime;
     private LocalTime dropOffTime;
-    private int distance;
+    private String vehicleType;
+    private int capacity;
 
     public RideRequest() {
     }
 
-    public RideRequest(int rideRequestID, String pickUpLocation, String dropOffLocation,
-            Customer customer,Date rideRequestDate, LocalTime pickUpTime, LocalTime dropOffTime,
-            int distance) {
-        this.rideRequestID = rideRequestID;
+    public RideRequest(String pickUpLocation, String dropOffLocation,
+            Customer customer,LocalDate rideRequestDate, LocalTime pickUpTime, LocalTime dropOffTime, String vehicleType, int capacity) {
         this.pickUpLocation = pickUpLocation;
         this.dropOffLocation = dropOffLocation;
         this.customer = customer;
         this.rideRequestDate = rideRequestDate;
         this.pickUpTime = pickUpTime;
         this.dropOffTime = dropOffTime;
-        this.distance = distance;
+        this.vehicleType = vehicleType;
+        this.capacity = capacity;
     }
 
-    public int getRideRequestID() {
-        return rideRequestID;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setRideRequestID(int rideRequestID) {
-        this.rideRequestID = rideRequestID;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getRideRequestStatus() {
@@ -70,11 +70,11 @@ public class RideRequest {
         this.customer = customer;
     }
 
-    public Date getRideRequestDate() {
+    public LocalDate getRideRequestDate() {
         return rideRequestDate;
     }
 
-    public void setRideRequestDate(Date rideRequestDate) {
+    public void setRideRequestDate(LocalDate rideRequestDate) {
         this.rideRequestDate = rideRequestDate;
     }
 
@@ -94,19 +94,19 @@ public class RideRequest {
         this.dropOffTime = dropOffTime;
     }
 
-    public int getDistance() {
-        return distance;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     @Override
     public String toString() {
-        return "RideRequest [rideRequestID=" + rideRequestID + ", rideRequestStatus=" + rideRequestStatus
+        return "RideRequest [RideRequestStatus=" + rideRequestStatus
                 + ", pickUpLocation=" + pickUpLocation + ", dropOffLocation=" + dropOffLocation + ", customer="
                 + customer + ", rideRequestDate=" + rideRequestDate + ", pickUpTime="
-                + pickUpTime + ", dropOffTime=" + dropOffTime + ", distance=" + distance + "]";
+                + pickUpTime + ", dropOffTime=" + dropOffTime + "]";
     }
 }

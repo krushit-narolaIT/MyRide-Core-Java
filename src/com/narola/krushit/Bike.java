@@ -1,31 +1,27 @@
 package com.narola.krushit;
 
 class Bike extends Vehicle {
-    private static String fuelType;
-    private double fareRate;
-    private static final int capacity = 1;
+    private final int capacity = 1;
 
-    public Bike(int vehicleID, String vehicleType, double fairRate) {
-        super(vehicleID, vehicleType);
-        this.fareRate = fairRate;
+    public Bike() {
     }
 
-    public double getFareRate() {
-        return fareRate;
-    }
-
-    public void setFareRate(double fareRate) {
-        this.fareRate = fareRate;
-    }
-
-    @Override
-    public String toString() {
-        String str = "Bike ::[" + super.toString() + "fareRate=" + fareRate + " ]";
-        return str;
+    public Bike(int vehicleID, String vehicleType, String fuelType) {
+        super(vehicleID, vehicleType, fuelType);
     }
 
     @Override
     public double calculateFare(double distance) {
-        return distance * getFareRate();
+        if (distance < 3) {
+            return distance * 5 * 1.5;
+        }
+        return distance * 3;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Bike{" +
+                ", capacity=" + capacity +
+                '}';
     }
 }

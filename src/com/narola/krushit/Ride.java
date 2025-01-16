@@ -1,5 +1,6 @@
 package com.narola.krushit;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -10,16 +11,16 @@ public class Ride {
     private String dropOffLocation;
     private Customer customer;
     private Driver driver;
-    private Date rideDate;
+    private LocalDate rideDate;
     private LocalTime pickUpTime;
     private LocalTime dropOffTime;
-    private int distance;
+    private double distance;
     private double totalCost;
 
     public Ride() {
     }
 
-    public Ride(int rideID, String rideStatus, String pickUpLocation, String dropOffLocation, Customer customer, Driver driver, Date rideDate, LocalTime pickUpTime, LocalTime dropOffTime, int distance, double totalCost) {
+    public Ride(int rideID, String rideStatus, String pickUpLocation, String dropOffLocation, Customer customer, Driver driver, LocalDate rideDate, LocalTime pickUpTime, LocalTime dropOffTime, double distance, double totalCost) {
         this.rideID = rideID;
         this.rideStatus = rideStatus;
         this.pickUpLocation = pickUpLocation;
@@ -81,11 +82,11 @@ public class Ride {
         this.driver = driver;
     }
 
-    public Date getRideDate() {
+    public LocalDate getRideDate() {
         return rideDate;
     }
 
-    public void setRideDate(Date rideDate) {
+    public void setRideDate(LocalDate rideDate) {
         this.rideDate = rideDate;
     }
 
@@ -105,11 +106,11 @@ public class Ride {
         this.dropOffTime = dropOffTime;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
