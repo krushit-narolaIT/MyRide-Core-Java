@@ -1,11 +1,8 @@
 package com.narola.krushit;
 
-import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
-class Driver extends User {
+public class Driver extends User {
     private String licenseNumber;
     private boolean available;
     private Vehicle vehicle;
@@ -49,10 +46,6 @@ class Driver extends User {
         this.available = available;
     }
 
-//    public double totalCharge(double distance) {
-//        return vehicle.getFareRate() * distance;
-//    }
-
     public void acceptRide() {
         System.out.println(getFirstName() + " accepted the ride.");
         this.available = false;
@@ -71,14 +64,14 @@ class Driver extends User {
     @Override
     public String toString() {
         return "Driver [" +
-                " Driver ID='" + userID + '\'' +
+                " Driver ID='" + getUserID() + '\'' +
                 ", Driver First Name='" + getFirstName() + '\'' +
                 ", Driver Last Name='" + getLastName() + '\'' +
                 ", License Number='" + licenseNumber + '\'' +
                 ", \n\tAvailability =" + available +
                 ", Vehicle=" + vehicle +
-                ", Phone No=" + phoneNo +
-                ", Email id='" + emailID + '\'' +
+                ", Phone No=" + getPhoneNo() +
+                ", Email id='" + getEmailID() + '\'' +
                 " ]";
     }
 
@@ -90,14 +83,14 @@ class Driver extends User {
     @Override
     public String getUserDetails() {
         return "Driver Details: " +
-                "Name: " + firstName + " " + lastName +
-                ", Phone: " + phoneNo +
+                "Name: " + getFirstName() + " " + getLastName() +
+                ", Phone: " + getPhoneNo() +
                 ", License: " + licenseNumber +
                 ", Vehicle: " + vehicle.getVehicleType();
     }
 
     public boolean requestConfirmation(RideRequest request){
-        boolean[] acceptance = {false, true, true, true, true};
+        boolean[] acceptance = {true, true, true, true, true};
         int index = (int) (Math.random() * acceptance.length);
 
         boolean ans = acceptance[index];
@@ -122,5 +115,4 @@ class Driver extends User {
         System.out.println("Total Cost         : $" + String.format("%.2f", ride.getTotalCost()));
         System.out.println("========================================");
     }
-
 }

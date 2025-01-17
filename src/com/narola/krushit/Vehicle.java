@@ -1,6 +1,6 @@
 package com.narola.krushit;
 
-abstract class Vehicle {
+public abstract class Vehicle {
     private int vehicleID;
     private String vehicleType;
     private String fuelType;
@@ -14,29 +14,12 @@ abstract class Vehicle {
         this.fuelType = fuelType;
     }
 
-    public int getVehicleID() {
-        return vehicleID;
-    }
-
-    public void setVehicleID(int vehicleID) {
-        this.vehicleID = vehicleID;
-    }
-
     public String getVehicleType() {
         return vehicleType;
     }
 
     public void setVehicleType(String vehicleType) {
         this.vehicleType = vehicleType;
-    }
-
-
-    public String getFuelType() {
-        return fuelType;
-    }
-
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
     }
 
     @Override

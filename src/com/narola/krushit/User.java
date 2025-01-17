@@ -1,14 +1,13 @@
 package com.narola.krushit;
 
 import java.math.BigInteger;
-import java.util.List;
 
-abstract class User {
-    int userID;
-    String firstName;
-    String lastName;
-    BigInteger phoneNo;
-    String emailID;
+public abstract class User {
+    private int userID;
+    private String firstName;
+    private String lastName;
+    private BigInteger phoneNo;
+    private String emailID;
 
     public User(int userID, String firstName, String lastName, BigInteger phoneNo, String emailID) {
         this.userID = userID;

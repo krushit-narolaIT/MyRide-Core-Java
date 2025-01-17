@@ -1,24 +1,14 @@
 package com.narola.krushit;
 
-import java.util.Locale;
-
-class AutoRickshaw extends Vehicle {
-    public static final int capacity = 3;
+public class AutoRickshow extends Vehicle {
+    public final int capacity = 3;
     private String transmission;
 
-    public AutoRickshaw() {
+    public AutoRickshow() {
     }
 
-    public AutoRickshaw(int vehicleID, String vehicleType, String fuelType, String transmission) {
+    public AutoRickshow(int vehicleID, String vehicleType, String fuelType, String transmission) {
         super(vehicleID, vehicleType, fuelType);
-        this.transmission = transmission;
-    }
-
-    public String getTransmission() {
-        return transmission;
-    }
-
-    public void setTransmission(String transmission) {
         this.transmission = transmission;
     }
 
@@ -38,9 +28,7 @@ class AutoRickshaw extends Vehicle {
     public double calculateFare(double distance) {
         double ratePerKm = 4;
         double additionalCharge = (distance > 8) ? 20 : 0;
-
         double rate = (distance * ratePerKm) + additionalCharge;
-
         return rate;
     }
 

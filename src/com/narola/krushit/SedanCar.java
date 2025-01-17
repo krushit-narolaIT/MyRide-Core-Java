@@ -2,7 +2,7 @@
 package com.narola.krushit;
 
 public class SedanCar extends Car {
-    public static final int capacity = 4;
+    public final int capacity = 4;
     private String wheelBase;
     private double carLength;
 

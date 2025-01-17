@@ -2,7 +2,6 @@ package com.narola.krushit;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 public class Ride {
     private int rideID;
@@ -17,21 +16,18 @@ public class Ride {
     private double distance;
     private double totalCost;
 
-    public Ride() {
-    }
-
-    public Ride(int rideID, String rideStatus, String pickUpLocation, String dropOffLocation, Customer customer, Driver driver, LocalDate rideDate, LocalTime pickUpTime, LocalTime dropOffTime, double distance, double totalCost) {
-        this.rideID = rideID;
-        this.rideStatus = rideStatus;
-        this.pickUpLocation = pickUpLocation;
-        this.dropOffLocation = dropOffLocation;
-        this.customer = customer;
-        this.driver = driver;
-        this.rideDate = rideDate;
-        this.pickUpTime = pickUpTime;
-        this.dropOffTime = dropOffTime;
-        this.distance = distance;
-        this.totalCost = totalCost;
+    private Ride(Builder builder) {
+        this.rideID = builder.rideID;
+        this.rideStatus = builder.rideStatus;
+        this.pickUpLocation = builder.pickUpLocation;
+        this.dropOffLocation = builder.dropOffLocation;
+        this.customer = builder.customer;
+        this.driver = builder.driver;
+        this.rideDate = builder.rideDate;
+        this.pickUpTime = builder.pickUpTime;
+        this.dropOffTime = builder.dropOffTime;
+        this.distance = builder.distance;
+        this.totalCost = builder.totalCost;
     }
 
     public int getRideID() {
@@ -120,6 +116,79 @@ public class Ride {
 
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public static class Builder {
+        private int rideID;
+        private String rideStatus;
+        private String pickUpLocation;
+        private String dropOffLocation;
+        private Customer customer;
+        private Driver driver;
+        private LocalDate rideDate;
+        private LocalTime pickUpTime;
+        private LocalTime dropOffTime;
+        private double distance;
+        private double totalCost;
+
+        public Builder setRideID(int rideID) {
+            this.rideID = rideID;
+            return this;
+        }
+
+        public Builder setRideStatus(String rideStatus) {
+            this.rideStatus = rideStatus;
+            return this;
+        }
+
+        public Builder setPickUpLocation(String pickUpLocation) {
+            this.pickUpLocation = pickUpLocation;
+            return this;
+        }
+
+        public Builder setDropOffLocation(String dropOffLocation) {
+            this.dropOffLocation = dropOffLocation;
+            return this;
+        }
+
+        public Builder setCustomer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public Builder setDriver(Driver driver) {
+            this.driver = driver;
+            return this;
+        }
+
+        public Builder setRideDate(LocalDate rideDate) {
+            this.rideDate = rideDate;
+            return this;
+        }
+
+        public Builder setPickUpTime(LocalTime pickUpTime) {
+            this.pickUpTime = pickUpTime;
+            return this;
+        }
+
+        public Builder setDropOffTime(LocalTime dropOffTime) {
+            this.dropOffTime = dropOffTime;
+            return this;
+        }
+
+        public Builder setDistance(double distance) {
+            this.distance = distance;
+            return this;
+        }
+
+        public Builder setTotalCost(double totalCost) {
+            this.totalCost = totalCost;
+            return this;
+        }
+
+        public Ride build() {
+            return new Ride(this);
+        }
     }
 
     @Override
