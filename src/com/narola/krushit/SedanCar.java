@@ -31,7 +31,7 @@ public class SedanCar extends Car {
         this.carLength = carLength;
     }
 
-    @Override
+/*    @Override
     public double calculateFare(double distance) {
         String fuelType = getFuelType();
         double rate = 1200;
@@ -44,5 +44,19 @@ public class SedanCar extends Car {
             rate += (carLength > 4.5 ? 100 : 50);
         }
         return rate;
+    }*/
+
+    @Override
+    public double calculateFare(double distance) {
+        double baseRate = 1200;
+        double distanceRate = 20;
+
+        double rate = baseRate + (distance * distanceRate);
+
+        if (distance > 50) {
+            rate += (carLength > 4.5 ? 250 : 75);
+        }
+        return rate;
     }
+
 }

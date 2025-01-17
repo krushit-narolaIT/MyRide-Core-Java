@@ -33,7 +33,7 @@ public class SuvCar extends Car {
 
     @Override
     public double calculateFare(double distance) {
-        double fare = distance * 1000;
+        double fare = distance * 10;
         if (grossVehicleWeight > 2000) {
             if(distance > 200){
                 fare += 10 * distance;
