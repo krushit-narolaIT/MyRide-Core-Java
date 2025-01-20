@@ -8,14 +8,6 @@ public class Driver extends User {
     private Vehicle vehicle;
     private boolean isLastTimeRejected;
 
-    public boolean isLastTimeRejected() {
-        return isLastTimeRejected;
-    }
-
-    public void setLastTimeRejected(boolean lastTimeRejected) {
-        isLastTimeRejected = lastTimeRejected;
-    }
-
     public Driver(String firstName, String lastLame, BigInteger phoneNo, String emailID, String licenseNumber) {
         super(firstName, lastLame, phoneNo, emailID);
         this.available = true;
@@ -46,33 +38,17 @@ public class Driver extends User {
         this.available = available;
     }
 
-    public void acceptRide() {
-        System.out.println(getFirstName() + " accepted the ride.");
-        this.available = false;
+    public boolean isLastTimeRejected() {
+        return isLastTimeRejected;
     }
 
-    public void completeRide() {
-        System.out.println(getFirstName() + " completed the ride.");
-        this.available = true;
+    public void setLastTimeRejected(boolean lastTimeRejected) {
+        isLastTimeRejected = lastTimeRejected;
     }
 
     public void addVehical(Vehicle vehicle){
         this.setVehicle(vehicle);
         System.out.println("Vehicle added successfully...!!");
-    }
-
-    @Override
-    public String toString() {
-        return "Driver [" +
-                " Driver ID='" + getUserID() + '\'' +
-                ", Driver First Name='" + getFirstName() + '\'' +
-                ", Driver Last Name='" + getLastName() + '\'' +
-                ", License Number='" + licenseNumber + '\'' +
-                ", \n\tAvailability =" + available +
-                ", Vehicle=" + vehicle +
-                ", Phone No=" + getPhoneNo() +
-                ", Email id='" + getEmailID() + '\'' +
-                " ]";
     }
 
     @Override
@@ -112,5 +88,19 @@ public class Driver extends User {
             return "bike";
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver [" +
+                " Driver ID='" + getUserID() + '\'' +
+                ", Driver First Name='" + getFirstName() + '\'' +
+                ", Driver Last Name='" + getLastName() + '\'' +
+                ", License Number='" + licenseNumber + '\'' +
+                ", \n\tAvailability =" + available +
+                ", Vehicle=" + vehicle +
+                ", Phone No=" + getPhoneNo() +
+                ", Email id='" + getEmailID() + '\'' +
+                " ]";
     }
 }

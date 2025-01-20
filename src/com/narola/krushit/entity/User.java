@@ -1,6 +1,7 @@
 package com.narola.krushit.entity;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public abstract class User {
     private int userID;
@@ -54,6 +55,19 @@ public abstract class User {
 
     public void setEmailID(String emailID) {
         this.emailID = emailID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(phoneNo, user.phoneNo) && Objects.equals(emailID, user.emailID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phoneNo, emailID);
     }
 
     @Override

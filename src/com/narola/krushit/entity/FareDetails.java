@@ -24,4 +24,12 @@ public class FareDetails {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+    @Override
+    public String toString() {
+        return "FareDetails{" +
+                "rate=" + rate +
+                ", distance=" + distance +
+                '}';
+    }
 }

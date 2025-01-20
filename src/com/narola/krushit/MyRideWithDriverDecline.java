@@ -4,6 +4,7 @@ import com.narola.krushit.commons.StatusConstant;
 import com.narola.krushit.entity.*;
 import com.narola.krushit.exception.DriverNotAvailableException;
 import com.narola.krushit.exception.RouteNotSupportedException;
+import com.narola.krushit.exception.UserAlreadyExistException;
 import com.narola.krushit.exception.VehicleNotAvailableException;
 
 import java.math.BigInteger;
@@ -28,28 +29,58 @@ public class MyRideWithDriverDecline {
         myRide.addRoute(new Route("Mumbai", "Kolkata", 1700));
 
         // Registering Drivers
-        Driver driver1 = new Driver("Raj", "Raja", new BigInteger("9874563214"), "rajraja@gmail.com", "DL14-0123654787");
-        myRide.registerDriver(driver1);
-        driver1.setAvailable(false);
+        Driver driver1 = null;
+        Driver driver2 = null;
 
+        Vehicle vehicle1 = null;
+        Vehicle vehicle2 = null;
 
-        Vehicle vehicle1 = new SedanCar("3W", "Petrol", "High", "Moderate", 4);
-        driver1.addVehical(vehicle1);
-        myRide.addVehicle(vehicle1);
+        Driver driver3 = null;
+        Vehicle vehicle3 = null;
 
-        Driver driver2 = new Driver("Shri", "Vastava", new BigInteger("5641239874"), "shri@gmail.com", "GJ05-0123654787");
-        myRide.registerDriver(driver2);
+        try {
+            driver1 = driver1 = new Driver("Raj", "Raja", new BigInteger("9874563214"), "rajraja@gmail.com", "DL14-0123654787");
+            myRide.registerDriver(driver1);
 
-        Vehicle vehicle2 = new SuvCar("3W", "Petrol", 'S', 100, "Low");
-        driver2.addVehical(vehicle2);
-        myRide.addVehicle(vehicle2);
-        driver2.setLastTimeRejected(true);
+            vehicle1 = new SedanCar("4W", "Petrol", "High", "Moderate", 4);
+            driver1.addVehical(vehicle1);
+            myRide.addVehicle(vehicle1);
+
+            driver2 = new Driver("Shri", "Vastava", new BigInteger("5641239874"), "shri@gmail.com", "GJ05-0123654787");
+            myRide.registerDriver(driver2);
+            driver2.setLastTimeRejected(true);
+
+            vehicle2 = new SuvCar("4W", "Petrol", 'S', 100, "Low");
+            driver2.addVehical(vehicle2);
+            myRide.addVehicle(vehicle2);
+
+            driver3 = new Driver("Arjun", "Dada", new BigInteger("8523697412"), "arjuna@gmail.com", "GJ05-4521361236");
+            myRide.registerDriver(driver3);
+            driver3.setLastTimeRejected(true);
+
+            vehicle3 = new SuvCar("4W", "Diesel", 'S', 75, "Moderate");
+            driver3.addVehical(vehicle3);
+            myRide.addVehicle(vehicle3);
+
+        } catch (UserAlreadyExistException e) {
+            System.err.println("Warning :: " + e.getMessage());
+        }
 
         System.out.println("Vehicles :: " + myRide.vehicleList);
 
         // Registering Customer
-        Customer customer1 = new Customer("Rushit", "Bahtiyar", new BigInteger("9876543214"), "rkb@narola.email");
-        myRide.registerCustomer(customer1);
+        Customer customer1 = null;
+        Customer customer2 = null;
+        try {
+            customer1 = new Customer("Rushit", "Bahtiyar", new BigInteger("9876543214"), "rkb@narola.email");
+            myRide.registerCustomer(customer1);
+
+            customer2 = new Customer("Raju", "Ajmer", new BigInteger("9876543214"), "rkb@narola.email");
+            myRide.registerCustomer(customer2);
+
+        } catch (UserAlreadyExistException e) {
+            System.err.println("Warning :: " + e.getMessage());
+        }
 
         // Creating Ride Request
         RideRequest rideRequest = new RideRequest.Builder()
@@ -72,7 +103,7 @@ public class MyRideWithDriverDecline {
                 myRide.rideList.add(ride);
             }
         } catch (Exception e) {
-            System.out.println("\u26A0 \u26A0 " + e.getMessage() + " \u26A0 \u26A0");
+            System.err.println("--> " + e.getMessage() + " <--");
         }
 
         //get previous user rides for customer1
@@ -93,7 +124,10 @@ public class MyRideWithDriverDecline {
         }
     }
 
-    public void registerDriver(Driver driver) {
+    public void registerDriver(Driver driver) throws UserAlreadyExistException {
+        if(driverList.contains(driver)){
+            throw new UserAlreadyExistException("User Already Exist");
+        }
         if(driverList.isEmpty()){
             driver.setUserID(1);
         } else {
@@ -103,7 +137,10 @@ public class MyRideWithDriverDecline {
         System.out.println("Driver Registered Successfully...!!!");
     }
 
-    public void registerCustomer(Customer customer) {
+    public void registerCustomer(Customer customer) throws UserAlreadyExistException {
+        if(customerList.contains(customer)){
+            throw new UserAlreadyExistException("User Already Exist");
+        }
         if(customerList.isEmpty()){
             customer.setUserID(1);
         } else {

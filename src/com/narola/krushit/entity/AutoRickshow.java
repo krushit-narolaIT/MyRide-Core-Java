@@ -12,18 +12,6 @@ public class AutoRickshow extends Vehicle {
         this.transmission = transmission;
     }
 
-/*    @Override
-    public double calculateFare(double distance) {
-        double rate = 0.0;
-        String fuelType = getFuelType();
-        if(fuelType.equalsIgnoreCase("petrol") || fuelType.equalsIgnoreCase("diesel")){
-            rate += distance * 4;
-        } else if(fuelType.equalsIgnoreCase("CNG")){
-            rate += distance * 1;
-        }
-        return distance *  + (distance > 8 ? 20 : 0);
-    }*/
-
     @Override
     public double calculateFare(double distance) {
         double ratePerKm = 4;

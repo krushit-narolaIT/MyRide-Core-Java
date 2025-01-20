@@ -10,11 +10,6 @@ public class RideRequest {
     private String pickUpLocation;
     private String dropOffLocation;
     private Customer customer;
-
-    public void setRideRequestStatus(String rideRequestStatus) {
-        this.rideRequestStatus = rideRequestStatus;
-    }
-
     private LocalDate rideRequestDate;
     private LocalTime pickUpTime;
     private LocalTime dropOffTime;
@@ -67,6 +62,18 @@ public class RideRequest {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public void setRideRequestStatus(String rideRequestStatus) {
+        this.rideRequestStatus = rideRequestStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "RideRequest [rideRequestStatus=" + rideRequestStatus
+                + ", pickUpLocation=" + pickUpLocation + ", dropOffLocation=" + dropOffLocation + ", customer="
+                + customer + ", rideRequestDate=" + rideRequestDate + ", pickUpTime="
+                + pickUpTime + ", dropOffTime=" + dropOffTime + ", vehicleType=" + vehicleType + ", capacity=" + capacity + "]";
     }
 
     public static class Builder {
@@ -128,13 +135,5 @@ public class RideRequest {
         public RideRequest build() {
             return new RideRequest(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "RideRequest [rideRequestStatus=" + rideRequestStatus
-                + ", pickUpLocation=" + pickUpLocation + ", dropOffLocation=" + dropOffLocation + ", customer="
-                + customer + ", rideRequestDate=" + rideRequestDate + ", pickUpTime="
-                + pickUpTime + ", dropOffTime=" + dropOffTime + ", vehicleType=" + vehicleType + ", capacity=" + capacity + "]";
     }
 }
