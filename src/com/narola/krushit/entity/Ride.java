@@ -1,4 +1,4 @@
-package com.narola.krushit;
+package com.narola.krushit.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -118,6 +118,28 @@ public class Ride {
         this.totalCost = totalCost;
     }
 
+    public void printRide(){
+        System.out.println(this.rideID + " " + this.driver.getFirstName() + " " + this.driver.getLastName() + " " +
+                this.getRideDate() + " " + this.getTotalCost());
+    }
+
+    @Override
+    public String toString() {
+        return "Ride{" +
+                "rideID=" + rideID +
+                ", rideStatus='" + rideStatus + '\'' +
+                ", pickUpLocation='" + pickUpLocation + '\'' +
+                ", dropOffLocation='" + dropOffLocation + '\'' +
+                ", customer=" + customer +
+                ", driver=" + driver +
+                ", rideDate=" + rideDate +
+                ", pickUpTime=" + pickUpTime +
+                ", dropOffTime=" + dropOffTime +
+                ", distance=" + distance +
+                ", totalCost=" + totalCost +
+                '}';
+    }
+
     public static class Builder {
         private int rideID;
         private String rideStatus;
@@ -189,22 +211,5 @@ public class Ride {
         public Ride build() {
             return new Ride(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Ride{" +
-                "rideID=" + rideID +
-                ", rideStatus='" + rideStatus + '\'' +
-                ", pickUpLocation='" + pickUpLocation + '\'' +
-                ", dropOffLocation='" + dropOffLocation + '\'' +
-                ", customer=" + customer +
-                ", driver=" + driver +
-                ", rideDate=" + rideDate +
-                ", pickUpTime=" + pickUpTime +
-                ", dropOffTime=" + dropOffTime +
-                ", distance=" + distance +
-                ", totalCost=" + totalCost +
-                '}';
     }
 }
